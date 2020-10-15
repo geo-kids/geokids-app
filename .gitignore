@@ -1,0 +1,11 @@
+.DS_Store
+.LSOverride
+ConfigFile/
+v2-SQLScripts/
+.vscode/
+2_1_FlywayPipeline-v1.sh
+3_1_FlywayPipeline-v2.sh
+CustomSQL/
+Demo_00/
+Demo_01/
+Other/
