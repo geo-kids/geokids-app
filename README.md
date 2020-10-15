@@ -1,5 +1,6 @@
-# Demo 02 - Flyway migrations on Azure pipelines (CI/CD)
+# Flyway migrations on Azure pipelines (CI/CD)
 
+## Demo 02
 ## Version 1.0
 * Review repository structure
 * Review Kubernetes architecture
@@ -16,6 +17,7 @@
 * Review Flyway schema history
 * Review changes in SQL Server GeoKids database
 
+## Demo 03
 ## Version 2.0
 * Review repository structure
 * Review Kubernetes deployments
