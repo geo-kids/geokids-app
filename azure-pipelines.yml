@@ -115,14 +115,14 @@ stages:
         rootDirectory: '$(System.ArtifactsDirectory)/Artifacts'
         targetFiles: Manifests/dep-geokids-web.yaml 
 
-    # Deploying Kubernetes job on AKS cluster
+    # Kubernetes deployment
     - task: Kubernetes@0
       displayName: 'Kubernetes deployment '
       inputs:
         kubernetesServiceConnection: 'Geokids-Kubernetes'
         command: apply
         useConfigurationFile: true
-        configuration: '$(System.ArtifactsDirectory)/Manifests/dep-geokids-web.yaml'
+        configuration: '$(System.ArtifactsDirectory)/Artifacts/Manifests/dep-geokids-web.yaml'
         outputFormat: yaml
 
     # Checking Kubernetes webapp deployment
