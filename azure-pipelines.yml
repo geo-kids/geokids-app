@@ -34,7 +34,7 @@ stages:
         repository: '$(dockerOrg)/$(dockerRepo)'
         command: 'build'
         Dockerfile: 'WebApp/Images/Dockerfile'
-        buildContext: '*/WebApp'
+        buildContext: '$(Build.Repository.LocalPath)/WebApp'
 
     # Docker push task
     - task: Docker@2
