@@ -17,10 +17,10 @@ variables:
 ###########################################################################
 stages:
 - stage: Build
-  displayName: Build & push
+  displayName: Build & push images
   jobs:  
   - job: Build
-    displayName: Job - Build & push 
+    displayName: Build & push 
     pool:
       vmImage: 'ubuntu-latest'
 
@@ -28,7 +28,7 @@ stages:
     steps:
     # Docker build task
     - task: Docker@2
-      displayName: Building image
+      displayName: Build webapp image
       inputs:
         containerRegistry: 'Geokids - DockerHub'
         repository: '$(dockerOrg)/$(dockerRepo)'
@@ -38,7 +38,7 @@ stages:
 
     # Docker push task
     - task: Docker@2
-      displayName: Pushing image
+      displayName: Push webapp image
       inputs:
         containerRegistry: 'Geokids - DockerHub'
         repository: '$(dockerOrg)/$(dockerRepo)'
@@ -46,6 +46,20 @@ stages:
         addPipelineData: false
         tags: |
           $(tag)
+
+## Artifacts stage ##
+###########################################################################
+- stage: Artifacts
+  displayName: Artifacts
+
+  jobs:  
+  - job: Artifacts
+    displayName: Copy & publish artifacts
+    pool:
+      vmImage: 'ubuntu-latest'
+    
+    # Defining tasks by step
+    steps:
 
     # Artifact copy task
     - task: CopyFiles@2
