@@ -11,16 +11,19 @@ resources:
 variables:
   tag: '$(Build.BuildId)'
   dockerOrg: geokids
-  dockerRepo: geokids-web-net-test
+  webDockerRepo: geokids-web-net-test
+  flywayDockerRepo: geokidsdb-flyway-test
 
 ## Build stage ##
 ###########################################################################
 stages:
 - stage: Build
-  displayName: Build & push images
-  jobs:  
-  - job: Build
-    displayName: Build & push 
+  displayName: Build & push
+
+  jobs:
+  # Web app build and push job
+  - job: Build_WebApp
+    displayName: Build & push
     pool:
       vmImage: 'ubuntu-latest'
 
@@ -31,7 +34,7 @@ stages:
       displayName: Build webapp image
       inputs:
         containerRegistry: 'Geokids - DockerHub'
-        repository: '$(dockerOrg)/$(dockerRepo)'
+        repository: '$(dockerOrg)/$(webDockerRepo)'
         command: 'build'
         Dockerfile: 'WebApp/Images/Dockerfile'
         buildContext: '$(Build.Repository.LocalPath)/WebApp'
@@ -41,7 +44,36 @@ stages:
       displayName: Push webapp image
       inputs:
         containerRegistry: 'Geokids - DockerHub'
-        repository: '$(dockerOrg)/$(dockerRepo)'
+        repository: '$(dockerOrg)/$(webDockerRepo)'
+        command: 'push'
+        addPipelineData: false
+        tags: |
+          $(tag)
+
+  # Flyway migrations build and push job
+  - job: Build_Flyway
+    displayName: Build & push flyway
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    # Defining tasks by step
+    steps:
+    # Docker build task
+    - task: Docker@2
+      displayName: Build Flyway image
+      inputs:
+        containerRegistry: 'Geokids - DockerHub'
+        repository: '$(dockerOrg)/$(flywayDockerRepo)'
+        command: 'build'
+        Dockerfile: 'Database/Images/Dockerfile'
+        buildContext: '$(Build.Repository.LocalPath)/Database'
+
+    # Docker push task
+    - task: Docker@2
+      displayName: Push Flyway image
+      inputs:
+        containerRegistry: 'Geokids - DockerHub'
+        repository: '$(dockerOrg)/$(flywayDockerRepo)'
         command: 'push'
         addPipelineData: false
         tags: |
@@ -49,11 +81,11 @@ stages:
 
 ## Test stage ##
 ###########################################################################
-- stage: Tests
-  displayName: Tests
+- stage: Test
+  displayName: Test
 
   jobs:  
-  - job: Tests
+  - job: Test
     displayName: Unit tests
     pool:
       vmImage: 'ubuntu-latest'
@@ -77,11 +109,11 @@ stages:
 ## Artifacts stage ##
 ###########################################################################
 - stage: Artifacts
-  displayName: Copy & publish artifacts
+  displayName: Artifacts
 
   jobs:  
   - job: Artifacts
-    displayName: Copy & publish artifacts
+    displayName: Copy & publish
     pool:
       vmImage: 'ubuntu-latest'
     
@@ -109,7 +141,7 @@ stages:
 
   jobs:  
   - job: Release
-    displayName: Job - Release
+    displayName: Release
     pool:
       vmImage: 'ubuntu-latest'
     
