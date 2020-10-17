@@ -9,6 +9,12 @@ spec:
       tier: web
       track: stable
   replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 2
   template:
     metadata:
       labels:
@@ -19,6 +25,7 @@ spec:
       containers:
         - name: geokids-web
           image: geokids/geokids-web-net-test:#{Build.BuildId}#
+          imagePullPolicy: IfNotPresent
           env:
             - name: DB_USER
               valueFrom:

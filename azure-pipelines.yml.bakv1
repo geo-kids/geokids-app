@@ -22,7 +22,6 @@ stages:
 
   jobs:
   # Web app build and push job
-  ###########################################################################
   - job: Build_WebApp
     displayName: Build & push webapp
     pool:
@@ -52,7 +51,6 @@ stages:
           $(tag)
 
   # Flyway migrations build and push job
-  ###########################################################################
   - job: Build_Flyway
     displayName: Build & push flyway
     pool:
@@ -126,7 +124,7 @@ stages:
     - task: CopyFiles@2
       displayName: Copying YAML artifacts to staging folder
       inputs:
-        Contents: 'Manifests/*.yaml'
+        Contents: 'Manifests/dep-geokids-web.yaml'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     # Artifact publish task
@@ -161,7 +159,7 @@ stages:
       displayName: 'Replace tokens in YAML file'
       inputs:
         rootDirectory: '$(System.ArtifactsDirectory)/Artifacts'
-        targetFiles: Manifests/*.yaml 
+        targetFiles: Manifests/dep-geokids-web.yaml 
 
     # Kubernetes deployment
     - task: Kubernetes@0

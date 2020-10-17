@@ -1,12 +1,12 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: dbmigration-#{ENVIRONMENT}#-#{VERSION}#
+  name: dbmigration-#{Build.BuildId}#
 spec:
   template:
     spec:
       containers:
-      - name: db-migration-#{Environment}#-#{Build.BuildId}#
+      - name: db-migration-#{Build.BuildId}#
         image: geokids/geokidsdb-flyway:#{Build.BuildId}#
         imagePullPolicy: Always
         command: ["/flyway/flyway"]
