@@ -12,7 +12,7 @@ variables:
   tag: '$(Build.BuildId)'
   dockerOrg: geokids
   webDockerRepo: geokids-web-net-test
-  flywayDockerRepo: geokidsdb-flyway-test
+  flywayDockerRepo: geokids-sql-flyway
 
 ## Build stage ##
 ###########################################################################

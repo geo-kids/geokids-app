@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
       - name: db-migration-#{Build.BuildId}#
-        image: geokids/geokidsdb-flyway-test:#{Build.BuildId}#
+        image: geokids/geokids-sql-flyway:#{Build.BuildId}#
         imagePullPolicy: Always
         command: ["/flyway/flyway"]
         args: ["migrate", "info"]
@@ -16,7 +16,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: geokids-flyway-password
-              key: flyway.password 
+              key: flyway.password
         volumeMounts:
         - name: config-volume
           mountPath: /flyway/conf
@@ -25,5 +25,5 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: geokidsdb-flyway-config
+            name: geokids-flyway-config
   backoffLimit: 2
