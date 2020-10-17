@@ -163,9 +163,9 @@ stages:
         rootDirectory: '$(System.ArtifactsDirectory)/Artifacts'
         targetFiles: Manifests/*.yaml 
 
-    # Kubernetes webapp deployment
+    # Kubernetes deployment
     - task: Kubernetes@0
-      displayName: 'Kubernetes deployment - webapp '
+      displayName: 'Kubernetes deployment '
       inputs:
         kubernetesServiceConnection: 'Geokids-Kubernetes'
         command: apply
@@ -175,28 +175,9 @@ stages:
 
     # Checking Kubernetes webapp deployment
     - task: Kubernetes@0
-      displayName: 'Check webapp deployment '
+      displayName: 'Kubernetes webapp deployment '
       inputs:
         kubernetesServiceConnection: 'Geokids-Kubernetes'
         command: get
-        arguments: pods -l app=geokids-web
-        outputFormat: yaml
-
-    # Kubernetes flyway migration job
-    - task: Kubernetes@0
-      displayName: 'Kubernetes deployment - flyway job '
-      inputs:
-        kubernetesServiceConnection: 'Geokids-Kubernetes'
-        command: apply
-        useConfigurationFile: true
-        configuration: '$(System.ArtifactsDirectory)/Artifacts/Manifests/job-geokids-migration.yaml'
-        outputFormat: yaml
-
-    # Checking Kubernetes flyway migration job
-    - task: Kubernetes@0
-      displayName: 'Check flyway migration job '
-      inputs:
-        kubernetesServiceConnection: 'Geokids-Kubernetes'
-        command: get
-        arguments: jobs
+        arguments: deployments geokids-web-deployment
         outputFormat: yaml

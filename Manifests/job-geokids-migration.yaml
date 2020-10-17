@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
       - name: db-migration-#{Build.BuildId}#
-        image: geokids/geokidsdb-flyway:#{Build.BuildId}#
+        image: geokids/geokidsdb-flyway-test:#{Build.BuildId}#
         imagePullPolicy: Always
         command: ["/flyway/flyway"]
         args: ["migrate", "info"]
