@@ -15,7 +15,7 @@ spec:
         - name: FLYWAY_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: geokidsdb-flyway-password
+              name: geokids-flyway-password
               key: flyway.password 
         volumeMounts:
         - name: config-volume
