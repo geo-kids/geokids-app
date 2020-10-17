@@ -14,4 +14,4 @@ Other/
 # Exclude local files
 *.sh
 azure-pipelines.yml.*
-Azure pipeline CI config.png
+Pipeline-*.png
