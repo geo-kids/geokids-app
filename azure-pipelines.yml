@@ -2,134 +2,145 @@
 # GeoKids app - Version 1
 
 trigger:
-- master
-
-resources:
-- repo: self
-
-# Pipeline variables
-variables:
-  tag: '$(Build.BuildId)'
-  dockerOrg: geokids
-  dockerRepo: geokids-web-net-test
-
-## Build stage ##
-###########################################################################
-stages:
-- stage: Build
-  displayName: Build & push
-  jobs:  
-  - job: Build
-    displayName: Job - Build & push 
-    pool:
-      vmImage: 'ubuntu-latest'
-
-    # Defining tasks by step
-    steps:
-    # Docker build task
-    - task: Docker@2
-      displayName: Building image
-      inputs:
-        containerRegistry: 'Geokids - DockerHub'
-        repository: '$(dockerOrg)/$(dockerRepo)'
-        command: 'build'
-        Dockerfile: 'WebApp/Images/Dockerfile'
-        buildContext: '$(Build.Repository.LocalPath)/WebApp'
-
-    # Docker push task
-    - task: Docker@2
-      displayName: Pushing image
-      inputs:
-        containerRegistry: 'Geokids - DockerHub'
-        repository: '$(dockerOrg)/$(dockerRepo)'
-        command: 'push'
-        addPipelineData: false
-        tags: |
-          $(tag)
-
-    # Artifact copy task
-    - task: CopyFiles@2
-      displayName: Copying YAML artifacts to staging folder
-      inputs:
-        Contents: 'Manifests/dep-geokids-web.yaml'
-        TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-    # Artifact publish task
-    - task: PublishBuildArtifacts@1
-      displayName: Publishing YAML artifacts
-      inputs:
-        artifactName: 'Artifacts'
-        publishLocation: 'Container'
-
-## Test stage ##
-###########################################################################
-- stage: Test
-  displayName: Test
-
-  jobs:  
-  - job: Test
-    displayName: Job - Test
-    pool:
-      vmImage: 'ubuntu-latest'
-    
-    # Defining tasks by step
-    steps:
-    # Performing QA tests ... 
-    - task: Bash@3
-      inputs:
-        targetType: 'inline'
-        script: |
-          echo 'Performing QA tests ... '
-
-    # Performing stage tests ... 
-    - task: Bash@3
-      inputs:
-        targetType: 'inline'
-        script: |
-          echo 'Performing Stage tests ... '
-
-## Relese stage ##
-###########################################################################
-- stage: Release
-  displayName: Release
-
-  jobs:  
-  - job: Release
-    displayName: Job - Release
-    pool:
-      vmImage: 'ubuntu-latest'
-    
-    # Defining tasks by step
-    steps:
-    # Download published artifacts
-    - task: DownloadBuildArtifacts@0
-      displayName: Download published artifacts
-      inputs:
-        ArtifactName: 'Artifacts'
-        downloadPath: '$(System.ArtifactsDirectory)'
-
-    # Updating YAML with latest image
-    - task: replacetokens@3
-      displayName: 'Replace tokens in YAML file'
-      inputs:
-        rootDirectory: '$(System.ArtifactsDirectory)/Artifacts'
-        targetFiles: Manifests/dep-geokids-web.yaml 
-
-    # Kubernetes deployment
-    - task: Kubernetes@0
-      displayName: 'Kubernetes deployment '
-      inputs:
-        kubernetesServiceConnection: 'Geokids-Kubernetes'
-        command: apply
-        useConfigurationFile: true
-        configuration: '$(System.ArtifactsDirectory)/Artifacts/Manifests/dep-geokids-web.yaml'
-        outputFormat: yaml
-
-    # Checking Kubernetes webapp deployment
-    - task: Kubernetes@0
-      displayName: 'Kubernetes webapp deployment '
-      inputs:
-        kubernetesServiceConnection: 'Geokids-Kubernetes'
-        command: get
-        arguments: deployments geokids-web-deployment
-        outputFormat: yaml
+  - master
+  
+  resources:
+  - repo: self
+  
+  # Pipeline variables
+  variables:
+    tag: '$(Build.BuildId)'
+    dockerOrg: geokids
+    dockerRepo: geokids-web-net-test
+  
+  ## Build stage ##
+  ###########################################################################
+  stages:
+  - stage: Build
+    displayName: Build & push
+    jobs:  
+    - job: Build
+      displayName: Build & push web app
+      pool:
+        vmImage: 'ubuntu-latest'
+  
+      # Defining tasks by step
+      steps:
+      # Docker build task
+      - task: Docker@2
+        displayName: Build webapp image
+        inputs:
+          containerRegistry: 'Geokids - DockerHub'
+          repository: '$(dockerOrg)/$(dockerRepo)'
+          command: 'build'
+          Dockerfile: 'WebApp/Images/Dockerfile'
+          buildContext: '$(Build.Repository.LocalPath)/WebApp'
+  
+      # Docker push task
+      - task: Docker@2
+        displayName: Push webapp image
+        inputs:
+          containerRegistry: 'Geokids - DockerHub'
+          repository: '$(dockerOrg)/$(dockerRepo)'
+          command: 'push'
+          addPipelineData: false
+          tags: |
+            $(tag)
+  
+  ## Artifacts stage ##
+  ###########################################################################
+  - stage: Artifacts 
+    displayName: Copy & publish
+  
+    jobs:  
+    - job: Artifacts
+      displayName: Copy & publish artifacts
+      
+      # Defining tasks by step
+      steps:
+      # Artifact copy task
+      - task: CopyFiles@2
+        displayName: Copying YAML artifacts to staging folder
+        inputs:
+          Contents: 'Manifests/dep-geokids-web.yaml'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  
+      # Artifact publish task
+      - task: PublishBuildArtifacts@1
+        displayName: Publishing YAML artifacts
+        inputs:
+          artifactName: 'Artifacts'
+          publishLocation: 'Container'
+  
+  ## Test stage ##
+  ###########################################################################
+  - stage: Test
+    displayName: Test
+  
+    jobs:  
+    - job: Test
+      displayName: Job - Test
+      pool:
+        vmImage: 'ubuntu-latest'
+      
+      # Defining tasks by step
+      steps:
+      # Performing QA tests ... 
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo 'Performing QA tests ... '
+  
+      # Performing stage tests ... 
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo 'Performing Stage tests ... '
+  
+  ## Relese stage ##
+  ###########################################################################
+  - stage: Release
+    displayName: Release
+  
+    jobs:  
+    - job: Release
+      displayName: Job - Release
+      pool:
+        vmImage: 'ubuntu-latest'
+      
+      # Defining tasks by step
+      steps:
+      # Download published artifacts
+      - task: DownloadBuildArtifacts@0
+        displayName: Download published artifacts
+        inputs:
+          ArtifactName: 'Artifacts'
+          downloadPath: '$(System.ArtifactsDirectory)'
+  
+      # Updating YAML with latest image
+      - task: replacetokens@3
+        displayName: 'Replace tokens in YAML file'
+        inputs:
+          rootDirectory: '$(System.ArtifactsDirectory)/Artifacts'
+          targetFiles: Manifests/dep-geokids-web.yaml 
+  
+      # Kubernetes deployment
+      - task: Kubernetes@0
+        displayName: 'Kubernetes deployment '
+        inputs:
+          kubernetesServiceConnection: 'Geokids-Kubernetes'
+          command: apply
+          useConfigurationFile: true
+          configuration: '$(System.ArtifactsDirectory)/Artifacts/Manifests/dep-geokids-web.yaml'
+          outputFormat: yaml
+  
+      # Checking Kubernetes webapp deployment
+      - task: Kubernetes@0
+        displayName: 'Kubernetes webapp deployment '
+        inputs:
+          kubernetesServiceConnection: 'Geokids-Kubernetes'
+          command: get
+          arguments: deployments geokids-web-deployment
+          outputFormat: yaml
