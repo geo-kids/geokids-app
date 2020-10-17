@@ -1,11 +1,16 @@
+# Exclude macOS and VS code local files
 .DS_Store
 .LSOverride
+.vscode/
+
+# Exclude local folder directories
 ConfigFile/
 v2-SQLScripts/
-.vscode/
-2_1_FlywayPipeline-v1.sh
-3_1_FlywayPipeline-v2.sh
 CustomSQL/
 Demo_00/
 Demo_01/
 Other/
+
+# Exclude local files
+*.sh
+azure-pipelines.yml.*
