@@ -20,7 +20,7 @@ trigger:
     displayName: Build & push
     jobs:  
     - job: Build
-      displayName: Build & push web app
+      displayName: Job - Build & push 
       pool:
         vmImage: 'ubuntu-latest'
   
@@ -28,7 +28,7 @@ trigger:
       steps:
       # Docker build task
       - task: Docker@2
-        displayName: Build webapp image
+        displayName: Building image
         inputs:
           containerRegistry: 'Geokids - DockerHub'
           repository: '$(dockerOrg)/$(dockerRepo)'
@@ -38,7 +38,7 @@ trigger:
   
       # Docker push task
       - task: Docker@2
-        displayName: Push webapp image
+        displayName: Pushing image
         inputs:
           containerRegistry: 'Geokids - DockerHub'
           repository: '$(dockerOrg)/$(dockerRepo)'
@@ -47,17 +47,6 @@ trigger:
           tags: |
             $(tag)
   
-  ## Artifacts stage ##
-  ###########################################################################
-  - stage: Artifacts 
-    displayName: Copy & publish
-  
-    jobs:  
-    - job: Artifacts
-      displayName: Copy & publish artifacts
-      
-      # Defining tasks by step
-      steps:
       # Artifact copy task
       - task: CopyFiles@2
         displayName: Copying YAML artifacts to staging folder
