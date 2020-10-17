@@ -47,10 +47,37 @@ stages:
         tags: |
           $(tag)
 
+## Test stage ##
+###########################################################################
+- stage: Tests
+  displayName: Tests
+
+  jobs:  
+  - job: Tests
+    displayName: Unit tests
+    pool:
+      vmImage: 'ubuntu-latest'
+    
+    # Defining tasks by step
+    steps:
+    # Performing QA tests ... 
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo 'Performing QA tests ... '
+
+    # Performing stage tests ... 
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo 'Performing Stage tests ... '
+
 ## Artifacts stage ##
 ###########################################################################
 - stage: Artifacts
-  displayName: Artifacts
+  displayName: Copy & publish artifacts
 
   jobs:  
   - job: Artifacts
@@ -74,33 +101,6 @@ stages:
       inputs:
         artifactName: 'Artifacts'
         publishLocation: 'Container'
-
-## Test stage ##
-###########################################################################
-- stage: Test
-  displayName: Test
-
-  jobs:  
-  - job: Test
-    displayName: Job - Test
-    pool:
-      vmImage: 'ubuntu-latest'
-    
-    # Defining tasks by step
-    steps:
-    # Performing QA tests ... 
-    - task: Bash@3
-      inputs:
-        targetType: 'inline'
-        script: |
-          echo 'Performing QA tests ... '
-
-    # Performing stage tests ... 
-    - task: Bash@3
-      inputs:
-        targetType: 'inline'
-        script: |
-          echo 'Performing Stage tests ... '
 
 ## Relese stage ##
 ###########################################################################
