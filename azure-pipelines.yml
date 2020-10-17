@@ -156,7 +156,7 @@ stages:
         ArtifactName: 'Artifacts'
         downloadPath: '$(System.ArtifactsDirectory)'
 
-    # Updating YAML with latest image
+    # Updating YAML files with current build number
     - task: replacetokens@3
       displayName: 'Replace tokens in YAML file'
       inputs:
