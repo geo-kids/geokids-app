@@ -2,6 +2,10 @@
 .DS_Store
 .LSOverride
 .vscode/
+*.swp
+*.*~
+project.lock.json
+.vs/
 
 # Exclude local folder directories
 ConfigFile/
@@ -15,3 +19,24 @@ Other/
 *.sh
 azure-pipelines.yml.*
 Pipeline-*.png
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+Webapp/[Dd]ebug/
+Webapp/[Dd]ebugPublic/
+Webapp/[Rr]elease/
+Webapp/[Rr]eleases/
+Webapp/x64/
+Webapp/x86/
+Webapp/build/
+Webapp/bld/
+Webapp/[Bb]in/
+Webapp/[Oo]bj/
+Webapp/msbuild.log
+Webapp/msbuild.err
+Webapp/msbuild.wrn
