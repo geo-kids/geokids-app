@@ -23,7 +23,7 @@ stages:
   jobs:
   # Web app build and push job
   - job: Build_WebApp
-    displayName: Build & push
+    displayName: Build & push webapp
     pool:
       vmImage: 'ubuntu-latest'
 
