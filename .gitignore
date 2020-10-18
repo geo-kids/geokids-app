@@ -9,7 +9,6 @@ project.lock.json
 
 # Exclude local folder directories
 ConfigFile/
-v2-SQLScripts/
 CustomSQL/
 Demo_00/
 Demo_01/
@@ -40,3 +39,7 @@ Webapp/[Oo]bj/
 Webapp/msbuild.log
 Webapp/msbuild.err
 Webapp/msbuild.wrn
+
+# Version 2 folders
+v2-SQLScripts/
+v2-WebApp/
