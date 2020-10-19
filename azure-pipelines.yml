@@ -1,8 +1,14 @@
 # Azure DevOps Test
 # GeoKids app - Version 1
 
-trigger:
-- master
+pr:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
+    - .gitignore
 
 resources:
 - repo: self
@@ -25,6 +31,7 @@ stages:
   ###########################################################################
   - job: Build_WebApp
     displayName: Build & push webapp
+    continueOnError: false
     pool:
       vmImage: 'ubuntu-latest'
 
@@ -55,6 +62,7 @@ stages:
   ###########################################################################
   - job: Build_Flyway
     displayName: Build & push flyway
+    continueOnError: false
     pool:
       vmImage: 'ubuntu-latest'
 
@@ -85,10 +93,12 @@ stages:
 ###########################################################################
 - stage: Test
   displayName: Test
+  dependsOn: Build
 
   jobs:  
   - job: Test
     displayName: Unit tests
+    continueOnError: true
     pool:
       vmImage: 'ubuntu-latest'
     
@@ -112,6 +122,7 @@ stages:
 ###########################################################################
 - stage: Artifacts
   displayName: Artifacts
+  dependsOn: Test
 
   jobs:  
   - job: Artifacts
@@ -140,6 +151,7 @@ stages:
 ###########################################################################
 - stage: Release
   displayName: Release
+  dependsOn: Artifacts
 
   jobs:  
   - job: Release
@@ -171,6 +183,7 @@ stages:
         command: apply
         useConfigurationFile: true
         configuration: '$(System.ArtifactsDirectory)/Artifacts/Manifests/dep-geokids-web.yaml'
+        arguments: '--record'
         outputFormat: yaml
 
     # Checking Kubernetes webapp deployment

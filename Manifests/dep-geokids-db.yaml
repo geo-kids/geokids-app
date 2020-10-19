@@ -16,7 +16,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 5
       securityContext:
-        fsGroup: 1000
+        fsGroup: 10001
       containers:
       - name: geokids-db
         image: mcr.microsoft.com/mssql/server:2019-CU8-ubuntu-18.04
@@ -28,14 +28,14 @@ spec:
         - name: SA_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: sql-cred
-              key: SA_PASSWORD 
+              name: geokids-sa-password
+              key: sa_password 
         volumeMounts:
         - name: mssqldb
           mountPath: /var/opt/mssql
         resources:
           limits:
-            memory: "2Gi"
+            memory: "4Gi"
       volumes:
         - name: mssqldb
           persistentVolumeClaim:
