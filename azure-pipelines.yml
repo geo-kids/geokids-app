@@ -1,14 +1,8 @@
 # Azure DevOps Test
 # GeoKids app - Version 1
 
-pr:
-  branches:
-    include:
-    - master
-  paths:
-    exclude:
-    - README.md
-    - .gitignore
+trigger:
+  - master
 
 resources:
 - repo: self
