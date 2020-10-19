@@ -5,8 +5,8 @@ trigger:
   - master
 
 resources:
-- repo: self
-
+  - repo: self
+  
 # Pipeline variables
 variables:
   tag: '$(Build.BuildId)'
