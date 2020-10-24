@@ -18,6 +18,7 @@ Other/
 *.sh
 azure-pipelines.yml.*
 Pipeline-*.png
+release-info.md
 
 # User-specific files
 *.suo

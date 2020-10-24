@@ -16,7 +16,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: 5
       securityContext:
-        fsGroup: 10001
+        fsGroup: 1000
       containers:
       - name: geokids-db
         image: mcr.microsoft.com/mssql/server:2019-CU8-ubuntu-18.04
