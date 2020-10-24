@@ -23,6 +23,6 @@ ENTRYPOINT ["dotnet", "geo-kids-web-net.dll"]
 LABEL org.label-schema.name="Geovani de Leon"
 LABEL maintainer="erwingeo1021@gmail.com"
 LABEL org.label-schema.name="geokids-web-net"
-LABEL org.label-schema.description="Web App - .NET Core GeoKids application"
+LABEL org.label-schema.description="Web App - .NET Core GeoKids application v2"
 LABEL org.label-schema.url="https://github.com/geo-kids"
-LABEL org.label-schema.schema-version="1.0"
+LABEL org.label-schema.schema-version="2.0"

@@ -38,3 +38,6 @@ Dockerfile
 ConfigFile/
 Manifests/
 Database/
+v2-SQLScripts/
+v1-WebApp/
+v2-WebApp/

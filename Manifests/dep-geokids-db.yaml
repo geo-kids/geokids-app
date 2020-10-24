@@ -28,14 +28,14 @@ spec:
         - name: SA_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: sql-cred
-              key: SA_PASSWORD 
+              name: geokids-sa-password
+              key: sa_password 
         volumeMounts:
         - name: mssqldb
           mountPath: /var/opt/mssql
         resources:
           limits:
-            memory: "2Gi"
+            memory: "4Gi"
       volumes:
         - name: mssqldb
           persistentVolumeClaim:
