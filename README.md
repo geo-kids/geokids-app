@@ -36,7 +36,6 @@
 * Review changes in SQL Server GeoKids database
 * Review GeoKids website
 
-
 ## Questions?
 If you have questions or comments about this demo, don't hesitate to contact me at <crobles@dbamastery.com>
 
