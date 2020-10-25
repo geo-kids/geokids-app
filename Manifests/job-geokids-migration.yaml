@@ -2,10 +2,11 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: dbmigration-#{Build.BuildId}#
-  labels:
-    version: "#{databaseVersion}#"
 spec:
   template:
+    metadata:
+      labels:
+        version: "#{databaseVersion}#"
     spec:
       containers:
       - name: db-migration-#{Build.BuildId}#
