@@ -21,7 +21,7 @@ spec:
         app: geokids-web
         tier: web
         track: stable
-        version: "1.0"
+        version: #{webAppVersion}#
     spec:
       containers:
         - name: geokids-web

@@ -1,5 +1,5 @@
 # Azure DevOps Test
-# GeoKids app - Version 1.0
+# GeoKids app - Version 1
 
 trigger:
   - master
@@ -13,6 +13,8 @@ variables:
   dockerOrg: geokids
   webDockerRepo: geokids-web-net-test
   flywayDockerRepo: geokids-sql-flyway
+  webAppVersion: "1.0"
+  databaseVersion: "1.0"
 
 ## Build stage ##
 ###########################################################################
