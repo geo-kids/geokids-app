@@ -13,7 +13,7 @@ spec:
     metadata:
       labels:
         app: geokids-db
-        version: #{databaseVersion}#
+        version: "#{databaseVersion}#"
     spec:
       terminationGracePeriodSeconds: 5
       securityContext:
