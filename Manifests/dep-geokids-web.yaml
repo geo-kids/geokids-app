@@ -2,10 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: geokids-web-deployment
-  labels:
-    app.kubernetes.io/name: geokids
-    app.kubernetes.io/version: "1.0"
-    app.kubernetes.io/component: webapp
 spec:
   selector:
     matchLabels:
@@ -25,6 +21,7 @@ spec:
         app: geokids-web
         tier: web
         track: stable
+        version: "1.0"
     spec:
       containers:
         - name: geokids-web
