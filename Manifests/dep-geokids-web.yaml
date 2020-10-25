@@ -2,13 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: geokids-web-deployment
+  labels:
+    app.kubernetes.io/name: geokids
+    app.kubernetes.io/version: "1.0"
+    app.kubernetes.io/component: webapp
 spec:
   selector:
     matchLabels:
       app: geokids-web
       tier: web
       track: stable
-  replicas: 2
+  replicas: 4
   strategy:
     type: RollingUpdate
     rollingUpdate:
