@@ -1,5 +1,5 @@
 # Azure DevOps Test
-# GeoKids app - Version 1
+# GeoKids app - Version 1.0
 
 trigger:
   - master
