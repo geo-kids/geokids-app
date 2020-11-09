@@ -11,7 +11,7 @@ resources:
 variables:
   tag: '$(Build.BuildId)'
   dockerOrg: geokids
-  webDockerRepo: geokids-web-net-test
+  webDockerRepo: geokids-web
   flywayDockerRepo: geokids-sql-flyway
   webAppVersion: "1.0"
   databaseVersion: "1.0"

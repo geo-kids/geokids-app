@@ -8,7 +8,7 @@ spec:
       app: geokids-web
       tier: web
       track: stable
-  replicas: 4
+  replicas: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -21,11 +21,10 @@ spec:
         app: geokids-web
         tier: web
         track: stable
-        version: "#{webAppVersion}#"
     spec:
       containers:
         - name: geokids-web
-          image: geokids/geokids-web-net-test:#{Build.BuildId}#
+          image: geokids/geokids-web:#{Build.BuildId}#
           imagePullPolicy: IfNotPresent
           env:
             - name: DB_USER
