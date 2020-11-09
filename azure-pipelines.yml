@@ -143,7 +143,7 @@ stages:
         artifactName: 'Artifacts'
         publishLocation: 'Container'
 
-## Relese stage ##
+## Release stage ##
 ###########################################################################
 - stage: Release
   displayName: Release
